@@ -22,15 +22,15 @@ function setAppRoot(devFolderName, prodFolderName){
     var devFolder = devFolderName ? devFolderName+"/" : "";
     var prodFolder = prodFolderName ? prodFolderName+"/" : "";
     
-    var baseURL = "";
+    var appRoot = "";
     
     if(hostname === "localhost" || (hostname.search("192.168.") !== -1)  || (hostname.search("127.0.0.") !== -1)){
-        baseURL = window.location.origin+"/"+devFolder;
+        appRoot = window.location.origin+"/"+devFolder;
     }
     
     else{
-        baseURL = window.location.origin+"/"+prodFolder;
+        appRoot = window.location.origin+"/"+prodFolder;
     }
     
-    return baseURL;
+    return appRoot;
 }
