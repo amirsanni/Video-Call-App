@@ -1,0 +1,232 @@
+/* 
+    Created on : 22-Dec-2016
+    Author     : Amir <amirsanni@gmail.com>
+*/
+
+.margin-top-20{
+    margin-top: 20px;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+/* CHAT PANE */
+#typingInfo{
+    font-size: 10px;
+    color:  #3a87ad;
+}
+
+.col-md-4, .col-md-10{
+    padding:0;
+}
+.chat-pane-panel{
+    margin-bottom: 0px;
+}
+.chat-window{
+    bottom:0;
+    position:fixed;
+}
+.chat-pane-panel{
+    border-radius: 5px 5px 0 0;
+}
+.icon_minim{
+    padding:2px 10px;
+}
+.msg_container_base{
+  background: #e5e5e5;
+  margin: 0;
+  padding: 0 10px 10px;
+  max-height:300px;
+  overflow-x:hidden;
+  display: none;
+}
+.chat-pane-top-bar {
+  background: #666;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.msg_receive{
+    padding-left:0;
+    margin-left:0;
+}
+.msg_sent{
+    padding-bottom:20px !important;
+    margin-right:0;
+}
+.messages {
+  background: white;
+  padding: 10px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  max-width:100%;
+}
+.messages > p {
+    font-size: 13px;
+    margin: 0 0 0.2rem 0;
+    word-wrap: break-word
+  }
+.messages > time {
+    font-size: 11px;
+    color: #ccc;
+}
+.msg_container {
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+}
+.chat-pane-img {
+    display: block;
+    width: 100%;
+}
+.chat-avatar {
+    position: relative;
+}
+.base_receive > .chat-avatar:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid #FFF;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.base_sent {
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.base_sent > .chat-avatar:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid white;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    box-shadow: 1px 1px 2px rgba(black, 0.2); /*not quite perfect but close*/
+}
+
+.msg_sent > time{
+    float: right;
+}
+
+
+
+.msg_container_base::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.msg_container_base::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+.msg_container_base::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+/* _CHAT PANE */
+
+/*
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+*/
+
+/* VIDEO */
+#peerVid{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    background: url(../img/vidbg.png) no-repeat;
+    background-size: cover;
+}
+
+#myVid{
+    width: 300px;
+    height: 200px;
+    bottom: 0;
+    position: fixed;
+    right: 0;
+}
+
+
+/* Small screens */
+@media(max-width:768px){
+    #myVid{
+        width: 200px;
+        height: 100px;
+        bottom: 100px;
+        position: fixed;
+        left: 0;
+    }
+}
+
+/* _VIDEO */
+
+
+
+/* SNACKBAR */
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: rgba(158,31,99,0.9); /* background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    right: 0; /* Right the snackbar */
+    top: 90px; /* 90px from the top */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+    visibility: visible; /* Show the snackbar */
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {right: 0; opacity: 0;} 
+    to {top: 90px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {right: 0; opacity: 0;}
+    to {top: 90px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {top: 90px; opacity: 1;} 
+    to {right: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {top: 90px; opacity: 1;}
+    to {right: 0; opacity: 0;}
+}
+/* _SNACKBAR */
