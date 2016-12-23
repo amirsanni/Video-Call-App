@@ -34,9 +34,10 @@
                 padding: 15px 32px;
                 text-align: center;
                 text-decoration: none;
-                display: inline-block;
+                display: block;
                 font-size: 16px;
                 cursor: pointer;
+                margin: 0 auto;
             }
         </style>
         
@@ -47,7 +48,7 @@
     <body>
         <input type="button" id='createRoom' class="button" value="Create Random Room">
         
-        <div id="roomLink" style="margin-top: 10px"></div>
+        <div id="roomLink" style="margin-top: 10px; text-align: center"></div>
         
         <script>
             var createBtn = document.querySelector("#createRoom");
