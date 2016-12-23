@@ -17,7 +17,7 @@ var awaitingResponse;
 var streamConstraints;
 var myMediaStream;
 
-const appRoot = 'http://localhost/commapp/';
+const appRoot = 'http://localhost/webrtc-ratchet-chat-app/';
 const spinnerClass = 'fa fa-spinner faa-spin animated';
 
 $(document).ready(function(){
