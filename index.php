@@ -25,10 +25,45 @@
                 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.3/html5shiv.js"></script>
                 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+        
+        <style>
+            .button {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                cursor: pointer;
+            }
+        </style>
+        
+        <script src="js/config.js"></script>
     </head>
     
     
     <body>
-        <input type="button" id='createRoom'>
+        <input type="button" id='createRoom' class="button" value="Create Random Room">
+        
+        <div id="roomLink" style="margin-top: 10px"></div>
+        
+        <script>
+            var createBtn = document.querySelector("#createRoom");
+            var linkInput = document.querySelector("#roomLink");
+
+            createBtn.onclick = function(){
+                new Promise(function(resolve, reject){
+                    var room = Math.random().toString(36).slice(2).substring(0, 15);
+
+                    return room ? resolve(room) : reject(new Error("Could not create room"));
+                }).then(function(room){
+                    linkInput.innerHTML = appRoot+"comm.php?room="+room;
+                }).catch(function(err){
+                    linkInput.innerHTML = err;
+                });
+            };
+        </script>
     </body>
 </html>
