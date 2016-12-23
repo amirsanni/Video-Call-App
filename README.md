@@ -21,4 +21,4 @@ To test this app on your local server:
 #Note
 To host this online, you'll need to set a few things up:
 - Create Ratchet as a service so it can run persistently on your server
-- If on SSL, Ratchet won't work unless you make some changes on your server. This [answer on Stack Overflow](https://stackoverflow.com/questions/16979793/php-ratchet-websocket-ssl-connect) will come handy
+- If on SSL, Ratchet won't work unless you make some changes on your server. This [answer on Stack Overflow](https://stackoverflow.com/questions/16979793/php-ratchet-websocket-ssl-connect) should be helpful
