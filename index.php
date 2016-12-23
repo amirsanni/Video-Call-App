@@ -60,7 +60,8 @@
 
                     return room ? resolve(room) : reject(new Error("Could not create room"));
                 }).then(function(room){
-                    linkInput.innerHTML = appRoot+"comm.php?room="+room;
+                    var roomLink =appRoot+"comm.php?room="+room;
+                    linkInput.innerHTML = '<a href="'+roomLink+'" target="_blank">Enter Room</a>';
                 }).catch(function(err){
                     linkInput.innerHTML = err;
                 });
