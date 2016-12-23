@@ -328,7 +328,8 @@ $(document).ready(function(){
             
             //get stun servers from xirsys before starting call
             //recommended way to do is from your server
-            //replace the details with yours. If you don't want, you can comment this part out
+            //replace the details with yours. 
+            //If you don't want, you can comment this part out and uncomment the lines below this get request
             $.get('https://service.xirsys.com/ice', {
                 ident: "",
                 secret: '',
