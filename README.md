@@ -16,3 +16,9 @@ To test this app on your local server:
  - Open __`webrtc-ratchet-chat-app/ws/bin/server.php`__ and add your server `ip address` to __`$allowed_origins`__ array, then replace the `localhost` in `$app = new Ratchet\App('localhost', 8080, '0.0.0.0');` with your `ip address`
  - Blam! Good to go. Navigate to `YOUR_IP_ADDRESS/webrtc-ratchet-chat-app` on your browser on two different devices to start chatting
 - Works best on Chrome, Firefox and the latest versions of Opera desktop browser.
+
+
+#Note
+To host this online, you'll need to set a few things up:
+- Create Ratchet as a service so it can run persistently on your server
+- If on SSL, Ratchet won't work unless you make some changes on your server. This [answer on Stack Overflow]{https://stackoverflow.com/questions/16979793/php-ratchet-websocket-ssl-connect} will come handy
