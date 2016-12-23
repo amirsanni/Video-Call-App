@@ -351,7 +351,7 @@ $(document).ready(function(){
                 disableCallBtns();
             });
             
-            //uncomment the one below if you comment out the get request above
+            //uncomment the lines below if you comment out the get request above
 //            startCall(true);
 //            
 //            //dismiss modal
