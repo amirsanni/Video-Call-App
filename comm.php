@@ -172,6 +172,7 @@ require_once 'config.php';
             var wsChat = new WebSocket("<?=WS_URL?>");
         </script>
         <script src="js/adapter.js"></script>
+        <script src="js/config.js"></script>
         <script src="js/comm.js"></script>
         <audio id="callerTone" src="media/callertone.mp3" loop preload="auto"></audio>
         <audio id="msgTone" src="media/msgtone.mp3" preload="auto"></audio>
