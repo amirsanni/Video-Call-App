@@ -46,7 +46,7 @@
     
     
     <body>
-        <input type="button" id='createRoom' class="button" value="Create Random Room">
+        <input type="button" id='createRoom' class="button" value="Create Room">
         
         <div id="roomLink" style="margin-top: 10px; text-align: center"></div>
         
