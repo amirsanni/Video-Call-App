@@ -120,8 +120,6 @@ class Comm implements MessageComponentInterface {
                         
                         //notify other subscribers that he has disconnected
                         $this->notifyUsersOfDisconnection($room, $conn);
-                        
-                        echo 'user left';
                     }
                 }
             }
