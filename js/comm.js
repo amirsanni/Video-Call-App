@@ -324,40 +324,13 @@ $(document).ready(function(){
             //show msg that we're setting up call (i.e. locating servers)
             $("#calleeInfo").html("<i class='"+spinnerClass+"'></i> Setting up call...");
             
-            //get stun servers from xirsys before starting call
-            //recommended way to do is from your server
-            //replace the details with yours. 
-            //If you don't want, you can comment this part out and uncomment the lines below this get request
-            $.get('https://service.xirsys.com/ice', {
-                ident: "",
-                secret: '',
-                domain: "",
-                application: "",
-                room: "",
-                secure: 1
-            }, function(data, status){                
-                //set the gotten iceServers as our server
-                if(status === 'success' && data.d){
-                    servers = data.d;
-                }
-                
-                startCall(true);
+            startCall(true);
             
-                //dismiss modal
-                $("#rcivModal").modal('hide');
+            //dismiss modal
+            $("#rcivModal").modal('hide');
 
-                //enable the terminateCall btn
-                disableCallBtns();
-            });
-            
-            //uncomment the lines below if you comment out the get request above
-//            startCall(true);
-//            
-//            //dismiss modal
-//            $("#rcivModal").modal('hide');
-//
-//            //enable the terminateCall btn
-//            disableCallBtns();
+            //enable the terminateCall btn
+            disableCallBtns();
             
         }
         
