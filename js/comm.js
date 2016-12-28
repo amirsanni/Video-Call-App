@@ -1,7 +1,9 @@
+'use strict';
+
 /**
  * 
  * @author Amir <amirsanni@gmail.com>
- * @date 22-Dec-2016
+ * @date 24-Dec-2016
  */
 
 'use strict';
@@ -17,47 +19,23 @@ var awaitingResponse;
 var streamConstraints;
 var myMediaStream;
 
-
-$(document).ready(function(){
+window.addEventListener('load', function(){
     startCounter();//shows the time spent in room
     
-    $(".initCall").on('click', function(){
-        var callType = $(this).prop('id') === 'initVideo' ? "Video" : "Audio";
-        
-        //launch calling modal and await receiver's response by sending initCall to him (i.e. receiver)
-        if(checkUserMediaSupport){
-            //set media constraints based on the button clicked. Audio only should be initiated by default
-            streamConstraints = callType === 'Video' ? {video:{facingMode:'user'}, audio:true} : {audio:true};
-            
-            //set message to display on the call dialog
-            $("#callerInfo").css('color', 'black').html(callType === 'Video' ? 'Video call to Remote' : 'Audio call to Remote');
-            
-            //start calling tone
-            document.getElementById('callerTone').play();
-            
-            //notify callee that we're calling. Don't call startCall yet
-            wsChat.send(JSON.stringify({
-                action: 'initCall',
-                msg: callType === 'Video' ? "Video call from remote" : "Audio call from remote",
-                room: room
-            }));
-            
-            //disable call buttons
-            disableCallBtns();
-            
-            //wait for response for 30secs
-            awaitingResponse = setTimeout(function(){
-                endCall("Call ended due to lack of response", true);
-            }, 30000);
-        }
-        
-        else{
-            $("#callerInfo").css('color', 'red').html("Your browser/device does not have the capability to make call");
-        }
-        
-        
-        $("#callModal").modal('show');
-    });
+    /*
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    */
+    
+    //add event listeners to the dial buttons
+    var initCallElems = document.getElementsByClassName('initCall');
+    
+    for (var i = 0; i < initCallElems.length; i++) {
+        initCallElems[i].addEventListener('click', initCall);
+    }
     
     /*
     ********************************************************************************************************************************
@@ -107,8 +85,10 @@ $(document).ready(function(){
                 case 'initCall':
                     //launch modal to show that user has a call with options to accept or deny and start ringtone
                     //start ringtone here
-                    $("#calleeInfo").css('color', 'black').html(data.msg);
-                    $("#rcivModal").modal('show');
+                    document.getElementById('calleeInfo').style.color = 'black';
+                    document.getElementById('calleeInfo').innerHTML = data.msg;
+                    
+                    document.getElementById("rcivModal").style.display = 'block';
                     
                     document.getElementById('callerTone').play();
                     
@@ -124,9 +104,12 @@ $(document).ready(function(){
                 case 'callRejected':
                     //get response to call initiation (if user is the initiator)
                     //show received message (i.e. reason for rejection) and end call
-                    $("#callerInfo").css('color', 'red').html(data.msg);
+                    document.getElementById("callerInfo").style.color = 'red';
+                    document.getElementById("callerInfo").innerHTML = data.msg;
 
-                    setTimeout(function(){$("#callModal").modal('hide');}, 3000);
+                    setTimeout(function(){
+                        document.getElementById("callModal").style.display = 'none';
+                    }, 3000);
                     
                     //stop tone
                     document.getElementById('callerTone').pause();
@@ -139,9 +122,12 @@ $(document).ready(function(){
                 case 'endCall':
                     //i.e. when the caller ends the call from his end (after dialing and before recipient respond)
                     //End call
-                    $("#calleeInfo").css('color', 'red').html(data.msg);
+                    document.getElementById("calleeInfo").style.color = 'red';
+                    document.getElementById("calleeInfo").innerHTML = data.msg;
 
-                    setTimeout(function(){$("#rcivModal").modal('hide');}, 3000);
+                    setTimeout(function(){
+                        document.getElementById("rcivModal").style.display = 'none';
+                    }, 3000);
                     
                     //stop tone
                     document.getElementById('callerTone').pause();
@@ -150,7 +136,9 @@ $(document).ready(function(){
                     
                 case 'startCall':
                     startCall(false);//to start call when callee gives the go ahead (i.e. answers call)
-                    $("#callModal").modal('hide');//hide call modal
+                    
+                    document.getElementById("callModal").style.display = 'none';//hide call modal
+                    
                     clearTimeout(awaitingResponse);//clear timeout
                     
                     //stop tone
@@ -159,14 +147,12 @@ $(document).ready(function(){
 
                 case 'candidate':
                     //message is iceCandidate
-                    console.log("Ice received");
                     myPC ? myPC.addIceCandidate(new RTCIceCandidate(data.candidate)) : "";
                     
                     break;
 
                 case 'sdp':
                     //message is signal description
-                    console.log('sdp received');
                     myPC ? myPC.setRemoteDescription(new RTCSessionDescription(data.sdp)) : "";
                     
                     break;
@@ -181,7 +167,13 @@ $(document).ready(function(){
                     break;
 
                 case 'typingStatus':
-                    data.status ? $("#typingInfo").html("Remote is typing") : $("#typingInfo").html("");
+                    if(data.status){
+                        document.getElementById("typingInfo").innerHTML = "Remote is typing";
+                    }
+                    
+                    else{
+                        document.getElementById("typingInfo").innerHTML = "";
+                    }
                     
                     break;
                     
@@ -234,8 +226,8 @@ $(document).ready(function(){
     */
     
     //Indicate that user is typing
-    $("#chatInput").on('keyup', function(){
-        var msg = $(this).val().trim();
+    document.getElementById("chatInput").addEventListener('keyup', function(){
+        var msg = this.value.trim();
         
         //if user is typing and appointment is yet to end
         if(msg){
@@ -266,10 +258,10 @@ $(document).ready(function(){
     */
     
     //TO SEND MESSAGE TO REMOTE
-    $("#chatSendBtn").click(function(e){
+    document.getElementById("chatSendBtn").addEventListener('click', function(e){
         e.preventDefault();
         
-        var msg = $("#chatInput").val().trim();
+        var msg = document.getElementById("chatInput").value.trim();
         
         if(msg){
             var date = new Date().toLocaleTimeString();
@@ -277,7 +269,7 @@ $(document).ready(function(){
             addLocalChat(msg, date, true);
             
             //clear text
-            $("#chatInput").val("");
+            document.getElementById("chatInput").value = "";
             
             return false;
         }
@@ -293,12 +285,12 @@ $(document).ready(function(){
    
     
     //WHEN ENTER IS PRESSED TO SEND MESSAGE
-    $("#chatInput").on('keypress', function(e){
-        var msg = $(this).val().trim();
+    document.getElementById("chatInput").addEventListener('keypress', function(e){
+        var msg = this.value.trim();
         
         if((e.which === 13) && msg){
             //trigger the click event on the send btn
-            $("#chatSendBtn").click();
+            document.getElementById("chatSendBtn").click();
             
             return false;
         }
@@ -314,41 +306,12 @@ $(document).ready(function(){
     */
     
     //WHEN USER CLICKS BTN TO ANSWER CALL
-    $(".answerCall").click(function(e){
-        e.preventDefault();
-        //check whether user can use webrtc and use that to determine the response to send
-        if(checkUserMediaSupport){
-            //set media constraints based on the button clicked. Audio only should be initiated by default
-            streamConstraints = $(this).prop('id') === 'startVideo' ? {video:{facingMode:'user'}, audio:true} : {audio:true};
-            
-            //show msg that we're setting up call (i.e. locating servers)
-            $("#calleeInfo").html("<i class='"+spinnerClass+"'></i> Setting up call...");
-            
-            startCall(true);
-            
-            //dismiss modal
-            $("#rcivModal").modal('hide');
-
-            //enable the terminateCall btn
-            disableCallBtns();
-            
-        }
-        
-        else{
-            //inform caller and current user (i.e. receiver) that he cannot use webrtc, then dismiss modal after a while
-            wsChat.send(JSON.stringify({
-                action: 'callRejected',
-                msg: "Remote's device does not have the necessary requirements to make call",
-                room: room
-            }));
-            
-            $("#calleeInfo").html("Your browser/device does not meet the minimum requirements needed to make a call");
-            
-            setTimeout(function(){$("#rcivModal").modal('hide');}, 3000);
-        }
-        
-        document.getElementById('callerTone').pause();
-    });
+    //add event listener to the answer call buttons
+    var answerCallElems = document.getElementsByClassName('answerCall');
+    
+    for (var i = 0; i < answerCallElems.length; i++) {
+        answerCallElems[i].addEventListener('click', answerCall);
+    }
     
     
     /*
@@ -360,7 +323,7 @@ $(document).ready(function(){
     */
     
     //TO REJECT CALL
-    $("#rejectCall").click(function(e){
+    document.getElementById("rejectCall").addEventListener('click', function(e){
         e.preventDefault();
         
         wsChat.send(JSON.stringify({
@@ -369,7 +332,7 @@ $(document).ready(function(){
             room: room
         }));
         
-        $("#rcivModal").modal('hide');
+        document.getElementById("rcivModal").style.display = 'none';
         
         document.getElementById('callerTone').pause();
     });
@@ -384,7 +347,7 @@ $(document).ready(function(){
     */
     
     //WHEN THE CALLER CLICK TO END THE CALL
-    $("#endCall").click(function(e){
+    document.getElementById("endCall").addEventListener('click', function(e){
         e.preventDefault();
         
         endCall("Call ended by remote", false);
@@ -451,7 +414,7 @@ $(document).ready(function(){
     */
     
     //WHEN USER CLICKS TO TERMINATE THE CALL
-    $("#terminateCall").click(function(e){
+    document.getElementById("terminateCall").addEventListener('click', function(e){
         e.preventDefault();
         
         //close the connection
@@ -461,7 +424,8 @@ $(document).ready(function(){
         stopMediaStream();
         
         //remove video playback src
-        $('video').attr('src', appRoot+'img/vidbg.png');
+        //$('video').attr('src', appRoot+'img/vidbg.png');
+        document.querySelectorAll('video').src = appRoot+'img/vidbg.png';
         
         //inform peer to also end the connection
         wsChat.send(JSON.stringify({
@@ -489,13 +453,108 @@ $(document).ready(function(){
 ********************************************************************************************************************************
 */
 
+
+function initCall(){
+    var callType = this.id === 'initVideo' ? "Video" : "Audio";
+    var callerInfo = document.getElementById('callerInfo');
+        
+    //launch calling modal and await receiver's response by sending initCall to him (i.e. receiver)
+    if(checkUserMediaSupport){
+        //set media constraints based on the button clicked. Audio only should be initiated by default
+        streamConstraints = callType === 'Video' ? {video:{facingMode:'user'}, audio:true} : {audio:true};
+
+        //set message to display on the call dialog
+        callerInfo.style.color = 'black';
+        callerInfo.innerHTML = callType === 'Video' ? 'Video call to Remote' : 'Audio call to Remote';
+
+        //start calling tone
+        document.getElementById('callerTone').play();
+
+        //notify callee that we're calling. Don't call startCall yet
+        wsChat.send(JSON.stringify({
+            action: 'initCall',
+            msg: callType === 'Video' ? "Video call from remote" : "Audio call from remote",
+            room: room
+        }));
+
+        //disable call buttons
+        disableCallBtns();
+
+        //wait for response for 30secs
+        awaitingResponse = setTimeout(function(){
+            endCall("Call ended due to lack of response", true);
+        }, 30000);
+    }
+
+    else{
+        callerInfo.style.color = 'red';
+        callerInfo.innerHTML = "Your browser/device does not have the capability to make call";
+    }
+
+
+    document.getElementById("callModal").style.display = 'block';
+}
+
+/*
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+*/
+
+function answerCall(){
+    //check whether user can use webrtc and use that to determine the response to send
+    if(checkUserMediaSupport){
+        //set media constraints based on the button clicked. Audio only should be initiated by default
+        streamConstraints = this.id === 'startVideo' ? {video:{facingMode:'user'}, audio:true} : {audio:true};
+
+        //show msg that we're setting up call (i.e. locating servers)
+        document.getElementById("calleeInfo").innerHTML = "<i class='"+spinnerClass+"'></i> Setting up call...";
+
+        //uncomment the lines below if you comment out the get request above
+        startCall(true);
+
+        //dismiss modal
+        document.getElementById("rcivModal").style.display = 'none';
+
+        //enable the terminateCall btn
+        disableCallBtns();
+
+    }
+
+    else{
+        //inform caller and current user (i.e. receiver) that he cannot use webrtc, then dismiss modal after a while
+        wsChat.send(JSON.stringify({
+            action: 'callRejected',
+            msg: "Remote's device does not have the necessary requirements to make call",
+            room: room
+        }));
+
+        document.getElementById("calleeInfo").innerHTML = "Your browser/device does not meet the minimum requirements needed to make a call";
+
+        setTimeout(function(){
+            document.getElementById("rcivModal").style.display = 'none';
+        }, 3000);
+    }
+
+    document.getElementById('callerTone').pause();
+}
+
+/*
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+*/
+
 function startCall(isCaller){
     if(checkUserMediaSupport){
         myPC = new RTCPeerConnection(servers);//RTCPeerconnection obj
         
         //When my ice candidates become available
         myPC.onicecandidate = function(e){
-            console.log("Ice Candidate set");
             if(e.candidate){
                 //send my candidate to peer
                 wsChat.send(JSON.stringify({
@@ -508,8 +567,7 @@ function startCall(isCaller){
     
         //When remote stream becomes available
         myPC.ontrack = function(e){
-            console.log("Remote stream received");
-            $("#peerVid").attr('src', window.URL.createObjectURL(e.streams[0]));
+            document.getElementById("peerVid").src = window.URL.createObjectURL(e.streams[0]);
         };
         
         
@@ -574,7 +632,7 @@ function setLocalMedia(streamConstraints, isCaller){
     navigator.mediaDevices.getUserMedia(
         streamConstraints
     ).then(function(myStream){
-        $("#myVid").attr('src', window.URL.createObjectURL(myStream));
+        document.getElementById("myVid").src = window.URL.createObjectURL(myStream);
         
         myPC.addStream(myStream);//add my stream to RTCPeerConnection
         
@@ -646,6 +704,7 @@ function setLocalMedia(streamConstraints, isCaller){
 /**
  * 
  * @param {type} msg
+ * @param {type} date
  * @returns {undefined}
  */
 function addRemoteChat(msg, date){
@@ -713,26 +772,6 @@ function addLocalChat(msg, date, sendToPartner){
         if(sendToPartner){
             //use this if you just want to send via socket without saving in db
             sendChatToSocket(msg, date, msgId);
-			
-			//use the commented code below if you'd like to save msg in db (which is proper)
-	//        $.ajax({
-	//            url: '',
-	//            method: "POST",
-	//            data: {msg:msg}
-	//        }).done(function(rd){
-	//            if(rd.status === 1){
-	//                //push chat to partner
-	//                sendChatToSocket(msg, date, msgId);
-	//            }
-	//
-	//            else{
-	//                //change the sent status to indicate it couldn't be saved, hence not saved
-	//                $("#"+msgId).removeClass('fa-clock-o').addClass('fa-exclamation-triangle text-danger');
-	//            }
-	//        }).fail(function(){
-	//            //change the sent status to indicate it couldn't be saved, hence not saved
-	//            $("#"+msgId).removeClass('fa-clock-o').addClass('fa-exclamation-triangle text-danger');
-	//        });
         }
     });
     
@@ -787,17 +826,18 @@ function endCall(msg, setTimeOut){
 
     if(setTimeOut){
         //display message
-        $("#callerInfo").css('color', 'red').html("<i class='fa fa-exclamation-triangle'></i> No response");
+        document.getElementById("callerInfo").style.color = 'red';
+        document.getElementById.innerHTML = "<i class='fa fa-exclamation-triangle'></i> No response";
         
         setTimeout(function(){
-            $("#callModal").modal('hide');
+            document.getElementById("callModal").style.display = 'none';
         }, 3000);
         
         enableCallBtns();
     }
     
     else{
-        $("#callModal").modal('hide');
+        document.getElementById("callModal").style.display = 'none';
     }
     
     clearTimeout(awaitingResponse);
@@ -828,8 +868,16 @@ function fixChatScrollBarToBottom(){
 
 function enableCallBtns(){
     //enable dial btns and disable endcall btn
-    $(".initCall").attr('disabled', false);
-    $("#terminateCall").attr('disabled', true);
+//    $(".initCall").attr('disabled', false);
+//    $("#terminateCall").attr('disabled', true);
+    
+    var initCallElems = document.getElementsByClassName('initCall');
+    
+    for(let i = 0; i < initCallElems.length; i++){
+        initCallElems[i].removeAttribute('disabled');
+    }
+    
+    document.getElementById('terminateCall').setAttribute('disabled', true);
 }
 
 /*
@@ -842,8 +890,16 @@ function enableCallBtns(){
 
 function disableCallBtns(){
     //disable dial btns and enable endall btn
-    $(".initCall").attr('disabled', true);
-    $("#terminateCall").attr('disabled', false);
+//    $(".initCall").attr('disabled', true);
+//    $("#terminateCall").attr('disabled', false);
+
+    var initCallElems = document.getElementsByClassName('initCall');
+    
+    for(let i = 0; i < initCallElems.length; i++){
+        initCallElems[i].setAttribute('disabled', true);
+    }
+    
+    document.getElementById('terminateCall').removeAttribute('disabled');
 }
 
 /*
@@ -970,9 +1026,15 @@ function startCounter(){
 
 function stopMediaStream(){    
     if(myMediaStream){
-        myMediaStream.getTracks()[0].stop();
+//        myMediaStream.getTracks()[0].stop();
+//        
+//        myMediaStream.getTracks()[1] ? myMediaStream.getTracks()[1].stop() : "";
         
-        myMediaStream.getTracks()[1] ? myMediaStream.getTracks()[1].stop() : "";
+        var totalTracks = myMediaStream.getTracks().length;
+        
+        for(let i = 0; i < totalTracks; i++){
+            myMediaStream.getTracks()[i].stop();
+        }
     }
 }
 
@@ -985,10 +1047,12 @@ function stopMediaStream(){
 */
 
 function showSnackBar(msg, displayTime){
+    document.getElementById('snackbar').innerHTML = msg;
+    document.getElementById('snackbar').className = document.getElementById('snackbar').getAttribute('class') + " show";
     
-    $("#snackbar").html(msg).addClass("show");
-    
-    setTimeout(function(){$("#snackbar").html("").removeClass("show");}, displayTime);
+    setTimeout(function(){
+        $("#snackbar").html("").removeClass("show");
+    }, displayTime);
 }
 
 /*
