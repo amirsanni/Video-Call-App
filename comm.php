@@ -156,7 +156,7 @@ require_once 'config.php';
         </script>
         <script src="js/adapter.js"></script>
         <script src="js/config.js"></script>
-        <script src="js/vanilla.js"></script>
+        <script src="js/comm.js"></script>
         <audio id="callerTone" src="media/callertone.mp3" loop preload="auto"></audio>
         <audio id="msgTone" src="media/msgtone.mp3" preload="auto"></audio>
     </body>
