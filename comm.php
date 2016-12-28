@@ -111,16 +111,14 @@ require_once 'config.php';
         </div>
 
         <!--Modal to show that we are calling-->
-        <div id="callModal" class="modal fade" role="dialog" data-backdrop="static">
-            <div class="modal-dialog">
-                <div class="modal-content text-center">
-                    <div class="modal-header" id="callerInfo"></div>
+        <div id="callModal" class="modal">
+            <div class="modal-content text-center">
+                <div class="modal-header" id="callerInfo"></div>
 
-                    <div class="modal-body">
-                        <button type="button" class="btn btn-danger btn-sm" id='endCall'>
-                            <i class="fa fa-times-circle"></i> End Call
-                        </button>
-                    </div>
+                <div class="modal-body">
+                    <button type="button" class="btn btn-danger btn-sm" id='endCall'>
+                        <i class="fa fa-times-circle"></i> End Call
+                    </button>
                 </div>
             </div>
         </div>
@@ -128,35 +126,20 @@ require_once 'config.php';
 
 
         <!--Modal to give options to receive call-->
-        <div id="rcivModal" class="modal fade" role="dialog" data-backdrop="static">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" id="calleeInfo"></div>
+        <div id="rcivModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header" id="calleeInfo"></div>
 
-                    <div class="modal-body text-center">
-                        <button type="button" class="btn btn-success btn-sm answerCall" id='startAudio'>
-                            <i class="fa fa-phone"></i> Audio Call
-                        </button>
-                        <button type="button" class="btn btn-success btn-sm answerCall" id='startVideo'>
-                            <i class="fa fa-video-camera"></i> Video Call
-                        </button>
-                        <button type="button" class="btn btn-danger btn-sm" id='rejectCall'>
-                            <i class="fa fa-times-circle"></i> Reject Call
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--Modal end-->
-        
-        <!--Modal to show flash message-->
-        <div id="flashMsgModal" class="modal fade" role="dialog" data-backdrop="static">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" id="flashMsgHeader">
-                        <button type="button" class="close" id='closeFlashMsg' data-dismiss="modal">&times;</button>
-                        <center><i id="flashMsgIcon"></i> <font id="flashMsg"></font></center>
-                    </div>
+                <div class="modal-body text-center">
+                    <button type="button" class="btn btn-success btn-sm answerCall" id='startAudio'>
+                        <i class="fa fa-phone"></i> Audio Call
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm answerCall" id='startVideo'>
+                        <i class="fa fa-video-camera"></i> Video Call
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" id='rejectCall'>
+                        <i class="fa fa-times-circle"></i> Reject Call
+                    </button>
                 </div>
             </div>
         </div>
@@ -173,7 +156,7 @@ require_once 'config.php';
         </script>
         <script src="js/adapter.js"></script>
         <script src="js/config.js"></script>
-        <script src="js/comm.js"></script>
+        <script src="js/vanilla.js"></script>
         <audio id="callerTone" src="media/callertone.mp3" loop preload="auto"></audio>
         <audio id="msgTone" src="media/msgtone.mp3" preload="auto"></audio>
     </body>
