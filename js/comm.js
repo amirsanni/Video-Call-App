@@ -649,21 +649,27 @@ function setLocalMedia(streamConstraints, isCaller){
  * @returns {undefined}
  */
 function addRemoteChat(msg, date){
-    var received = '<div class="row msg_container base_receive">\
-            <div class="col-sm-10 col-xs-10">\
+    new Promise(function(resolve, reject){
+        var newNode = document.createElement('div');
+        
+        newNode.className = "row msg_container base_receive";
+        
+        return resolve(newNode);
+    }).then(function(newlyCreatedNode){
+        newlyCreatedNode.innerHTML = '<div class="col-sm-10 col-xs-10">\
                 <div class="messages msg_receive">\
                     <p>'+msg+'</p>\
                     <time>Remote • '+date+'</time>\
                 </div>\
-            </div>\
-        </div>';
-    
-    $("#chats").append(received);
-    
-    //open the chat just in case it is closed
-    $("#chatInput").focus();
-    
-    fixChatScrollBarToBottom();
+            </div>';
+        
+        document.getElementById('chats').appendChild(newlyCreatedNode);
+
+        //open the chat just in case it is closed
+        document.getElementById("chatInput").focus();
+
+        fixChatScrollBarToBottom();
+    });
 }
 
 
@@ -688,42 +694,48 @@ function addLocalChat(msg, date, sendToPartner){
     
     var msgId = randomString(5);//this will be used to change the sent status once it is sent (applicable if we're saving to db)
     
-    var sent = '<div class="row msg_container base_sent">\
-            <div class="col-sm-10 col-xs-10">\
+    new Promise(function(resolve, reject){
+        var newNode = document.createElement('div');
+        
+        newNode.className = "row msg_container base_sent";
+        
+        return resolve(newNode);
+    }).then(function(newlyCreatedNode){
+        newlyCreatedNode.innerHTML = '<div class="col-sm-10 col-xs-10">\
                 <div class="messages msg_sent">\
                     <p>'+msg+'</p>\
                     <time>You • '+date+' <i class="fa fa-clock-o sentStatus" id="'+msgId+'"></i></time>\
                 </div>\
-            </div>\
-        </div>';
-
-    //paste chat
-    $("#chats").append(sent);
-    
-    if(sendToPartner){
-        //use this if you just want to send via socket without saving in db
-        sendChatToSocket(msg, date, msgId);
+            </div>';
         
-        //use the commented code below if you'd like to save msg in db (which is proper)
-//        $.ajax({
-//            url: '',
-//            method: "POST",
-//            data: {msg:msg}
-//        }).done(function(rd){
-//            if(rd.status === 1){
-//                //push chat to partner
-//                sendChatToSocket(msg, date, msgId);
-//            }
-//
-//            else{
-//                //change the sent status to indicate it couldn't be saved, hence not saved
-//                $("#"+msgId).removeClass('fa-clock-o').addClass('fa-exclamation-triangle text-danger');
-//            }
-//        }).fail(function(){
-//            //change the sent status to indicate it couldn't be saved, hence not saved
-//            $("#"+msgId).removeClass('fa-clock-o').addClass('fa-exclamation-triangle text-danger');
-//        });
-    }
+        document.getElementById('chats').appendChild(newlyCreatedNode);
+        
+        if(sendToPartner){
+            //use this if you just want to send via socket without saving in db
+            sendChatToSocket(msg, date, msgId);
+			
+			//use the commented code below if you'd like to save msg in db (which is proper)
+	//        $.ajax({
+	//            url: '',
+	//            method: "POST",
+	//            data: {msg:msg}
+	//        }).done(function(rd){
+	//            if(rd.status === 1){
+	//                //push chat to partner
+	//                sendChatToSocket(msg, date, msgId);
+	//            }
+	//
+	//            else{
+	//                //change the sent status to indicate it couldn't be saved, hence not saved
+	//                $("#"+msgId).removeClass('fa-clock-o').addClass('fa-exclamation-triangle text-danger');
+	//            }
+	//        }).fail(function(){
+	//            //change the sent status to indicate it couldn't be saved, hence not saved
+	//            $("#"+msgId).removeClass('fa-clock-o').addClass('fa-exclamation-triangle text-danger');
+	//        });
+        }
+    });
+    
     
     fixChatScrollBarToBottom();
 }
