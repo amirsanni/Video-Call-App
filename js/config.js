@@ -5,9 +5,9 @@
 
 'use strict';
 
+const wsChat = new WebSocket("ws://localhost:8080/comm");
 const appRoot = setAppRoot('webrtc-ratchet-chat-app', '');
 const spinnerClass = 'fa fa-spinner faa-spin animated';
-
 
 function setAppRoot(devFolderName, prodFolderName){
     var hostname = window.location.hostname;
@@ -33,4 +33,31 @@ function setAppRoot(devFolderName, prodFolderName){
     }
     
     return appRoot;
+}
+
+/*
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+*/
+
+function getRoom(){
+    var params = window.location.search.substr(1).split("&");
+    
+    if(params){
+        for(let i = 0; i < params.length; i++){
+            var key = params[i].split("=")[0];
+            var value = params[i].split("=")[1];
+            
+            if(key === "room"){
+                return value;
+            }
+        }
+    }
+    
+    else{
+        return "";
+    }
 }
