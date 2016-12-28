@@ -6,7 +6,7 @@
  * @date 24-Dec-2016
  */
 
-'use strict';
+
 
 var servers = {
     iceServers: [
@@ -20,6 +20,8 @@ var streamConstraints;
 var myMediaStream;
 
 window.addEventListener('load', function(){
+    const room = getRoom();
+    
     startCounter();//shows the time spent in room
     
     /*
