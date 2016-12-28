@@ -21,6 +21,7 @@ var myMediaStream;
 
 window.addEventListener('load', function(){
     const room = getRoom();
+    const wsChat = new WebSocket("ws://localhost:8080/comm");
     
     startCounter();//shows the time spent in room
     
@@ -1074,4 +1075,31 @@ function randomString(length){
     var rand = Math.random().toString(36).slice(2).substring(0, length);
     
     return rand;
+}
+
+/*
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+********************************************************************************************************************************
+*/
+
+function getRoom(){
+    var params = window.location.search.substr(1).split("&");
+    
+    if(params){
+        for(let i = 0; i < params.length; i++){
+            var key = params[i].split("=")[0];
+            var value = params[i].split("=")[1];
+            
+            if(key === "room"){
+                return value;
+            }
+        }
+    }
+    
+    else{
+        return "";
+    }
 }
