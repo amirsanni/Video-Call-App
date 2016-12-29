@@ -1,0 +1,35 @@
+FOR CENTOS7
+Create a file named "ratchet.service" in /etc/systemd/system/ and put the following in it:
+
+[Unit]
+Description=Ratchet Service
+After=network.target
+
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/php -f /path/to/ratchet/server$
+Restart=on-abort
+
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+*********************************************************************************************
+*********************************************************************************************
+*********************************************************************************************
+*********************************************************************************************
+
+To check status:
+service ratchet status
+
+To start
+service ratchet start
+
+To stop
+service ratchet stop
+
+To restart
+service ratchet restart
