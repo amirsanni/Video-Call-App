@@ -6,7 +6,7 @@
 'use strict';
 
 
-const appRoot = setAppRoot('webrtc-ratchet-chat-app', '');
+const appRoot = setAppRoot('webrtc-ratchet-chat-app', 'webrtc-ratchet-chat-app');
 const spinnerClass = 'fa fa-spinner faa-spin animated';
 
 function setAppRoot(devFolderName, prodFolderName){
