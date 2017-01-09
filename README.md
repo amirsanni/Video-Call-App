@@ -1,4 +1,4 @@
-# WebRTC and Ratchet Chat Application
+# Video Call App
 A one-to-one text, audio and video chat application built with webRTC and Ratchet.
 
 # Requirements
