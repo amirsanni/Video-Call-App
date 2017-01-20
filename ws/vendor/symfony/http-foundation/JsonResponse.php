@@ -62,7 +62,7 @@ class JsonResponse extends Response
      * @param int   $status  The response status code
      * @param array $headers An array of response headers
      *
-     * @return JsonResponse
+     * @return static
      */
     public static function create($data = null, $status = 200, $headers = array())
     {
@@ -70,19 +70,27 @@ class JsonResponse extends Response
     }
 
     /**
+     * Make easier the creation of JsonResponse from raw json.
+     */
+    public static function fromJsonString($data = null, $status = 200, $headers = array())
+    {
+        return new static($data, $status, $headers, true);
+    }
+
+    /**
      * Sets the JSONP callback.
      *
      * @param string|null $callback The JSONP callback or null to use none
      *
-     * @return JsonResponse
+     * @return $this
      *
      * @throws \InvalidArgumentException When the callback name is not valid
      */
     public function setCallback($callback = null)
     {
         if (null !== $callback) {
-            // partially token from http://www.geekality.net/2011/08/03/valid-javascript-identifier/
-            // partially token from https://github.com/willdurand/JsonpCallbackValidator
+            // partially taken from http://www.geekality.net/2011/08/03/valid-javascript-identifier/
+            // partially taken from https://github.com/willdurand/JsonpCallbackValidator
             //      JsonpCallbackValidator is released under the MIT License. See https://github.com/willdurand/JsonpCallbackValidator/blob/v1.1.0/LICENSE for details.
             //      (c) William Durand <william.durand1@gmail.com>
             $pattern = '/^[$_\p{L}][$_\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]*(?:\[(?:"(?:\\\.|[^"\\\])*"|\'(?:\\\.|[^\'\\\])*\'|\d+)\])*?$/u';
@@ -109,7 +117,7 @@ class JsonResponse extends Response
      *
      * @param string $json
      *
-     * @return JsonResponse
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -125,7 +133,7 @@ class JsonResponse extends Response
      *
      * @param mixed $data
      *
-     * @return JsonResponse
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -172,7 +180,7 @@ class JsonResponse extends Response
      *
      * @param int $encodingOptions
      *
-     * @return JsonResponse
+     * @return $this
      */
     public function setEncodingOptions($encodingOptions)
     {
@@ -184,7 +192,7 @@ class JsonResponse extends Response
     /**
      * Updates the content and headers according to the JSON data and callback.
      *
-     * @return JsonResponse
+     * @return $this
      */
     protected function update()
     {

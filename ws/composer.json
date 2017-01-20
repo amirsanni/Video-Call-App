@@ -1,6 +1,6 @@
 {
     "require":{
-        "cboden/ratchet" : "0.3.*"
+        "cboden/ratchet" : "0.4.x-dev"
     },
     
     "autoload": {

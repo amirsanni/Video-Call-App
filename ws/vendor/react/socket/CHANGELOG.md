@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.4.5 (2017-01-08)
+
+* Feature: Add `SecureServer` for secure TLS connections
+  (#55 by @clue)
+
+* Add functional integration tests
+  (#54 by @clue)
+
+## 0.4.4 (2016-12-19)
+
+* Feature / Fix: `ConnectionInterface` should extend `DuplexStreamInterface` + documentation
+  (#50 by @clue)
+
+* Feature / Fix: Improve test suite and switch to normal stream handler
+  (#51 by @clue)
+
+* Feature: Add examples
+  (#49 by @clue)
+
 ## 0.4.3 (2016-03-01)
 
 * Bug fix: Suppress errors on stream_socket_accept to prevent PHP from crashing
