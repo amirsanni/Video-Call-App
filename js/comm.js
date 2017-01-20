@@ -19,10 +19,10 @@ var awaitingResponse;
 var streamConstraints;
 var myMediaStream;
 
+const room = getRoom();
+const wsChat = new WebSocket("ws://localhost:8080/comm");
+
 window.addEventListener('load', function(){
-    const room = getRoom();
-    const wsChat = new WebSocket("ws://localhost:8080/comm");
-    
     startCounter();//shows the time spent in room
     
     /*
