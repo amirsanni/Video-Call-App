@@ -232,7 +232,7 @@ window.addEventListener('load', function(){
     document.getElementById("chatInput").addEventListener('keyup', function(){
         var msg = this.value.trim();
         
-        //if user is typing and appointment is yet to end
+        //if user is typing
         if(msg){
             wsChat.send(JSON.stringify({
                 action: 'typingStatus',
