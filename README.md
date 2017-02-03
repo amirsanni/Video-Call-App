@@ -21,4 +21,24 @@ To test this app on your local server:
 #Note
 To host this online, you'll need to set a few things up:
 - Create Ratchet as a service so it can run persistently on your server. Check the file *ratchet_as_a_service.txt* for the guide on how to do this on CentOS7
-- If on SSL, Ratchet won't work unless you make some changes on your server. This [answer on Stack Overflow](https://stackoverflow.com/questions/16979793/php-ratchet-websocket-ssl-connect) should be helpful.
+- If on SSL, Ratchet won't work unless you make some changes on your server.
+  - Enable mod_proxy.so
+  - Enable  mod_proxy_wstunnel.so
+  - Open http.conf and add this: __ProxyPass /wss2/ ws://YOUR_SERVER_IP_OR_DOMAIN:PORT/__ 
+    
+    e.g. _ProxyPass /wss2/ws://www.abc.xyz:8080/_
+  - From your front-end, you can connect like this:
+    
+    _const wsChat = new WebSocket("ws://YOUR_SERVER_IP_OR_DOMAIN:PORT/wss2/comm");_
+
+  However, if you are wondering how to edit httpd.conf on WHM, here is how:
+    - After enabling those services (mod_proxy.so and mod_proxy_wstunnel.so), log in to WHM, 
+    
+    go to __"service configuration" => "Apache configuration" => "include editor" => "pre main include"__, 
+    
+    select a version of your choice or choose _"All versions"_. The file name should be _"pre_main_global.conf'_
+    - All your new configuration can be written in that textarea without tampering with httpd.conf directly. 
+    The configurations will be loaded on Apache start-up.
+    - Once you put the Proxypass directive there, restart your server and there you go.
+    
+ This [answer on Stack Overflow](https://stackoverflow.com/questions/16979793/php-ratchet-websocket-ssl-connect) should be helpful.
