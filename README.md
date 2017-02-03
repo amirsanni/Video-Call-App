@@ -24,7 +24,7 @@ To host this online, you'll need to set a few things up:
 - If on SSL, Ratchet won't work unless you make some changes on your server.
   - Enable mod_proxy.so
   - Enable  mod_proxy_wstunnel.so
-  - Open http.conf and add this: __ProxyPass /wss2/ ws://YOUR_SERVER_IP_OR_DOMAIN:PORT/__ 
+  - Open httpd.conf and add this: __ProxyPass /wss2/ ws://YOUR_SERVER_IP_OR_DOMAIN:PORT/__ 
     
     e.g. _ProxyPass /wss2/ws://www.abc.xyz:8080/_
   - From your front-end, you can connect like this:
