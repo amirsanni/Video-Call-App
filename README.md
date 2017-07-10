@@ -1,5 +1,5 @@
 # Video Call App
-A one-to-one text, audio and video chat application built with webRTC and Ratchet.
+A one-to-one text, audio and video chat application built with webRTC and Ratchet (PHP WebSockets).
 
 # Requirements
 - PHP >= 5.4
