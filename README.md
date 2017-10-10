@@ -41,4 +41,4 @@ To host this online, you'll need to set up a few things:
     The configurations will be loaded on Apache start-up.
     - Once you put the Proxypass directive there, restart your server and there you go.
     
- This [answer on Stack Overflow](https://stackoverflow.com/questions/16979793/php-ratchet-websocket-ssl-connect) should be helpful.
+ This [answer on Stack Overflow](https://stackoverflow.com/a/28393526/4522890) should be helpful.
