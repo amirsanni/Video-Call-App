@@ -26,7 +26,7 @@ To host this online, you'll need to set up a few things:
   - Enable  mod_proxy_wstunnel.so
   - Open httpd.conf and add this: __ProxyPass /wss2/ ws://YOUR_SERVER_IP_OR_DOMAIN:PORT/__ 
     
-    e.g. _ProxyPass /wss2/ws://www.abc.xyz:8080/_
+    e.g. _ProxyPass /wss2/ ws://www.abc.xyz:8080/_
   - From your front-end, you can connect like this:
     
     _const wsChat = new WebSocket("ws://YOUR_SERVER_IP_OR_DOMAIN:PORT/wss2/comm");_
