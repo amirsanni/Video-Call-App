@@ -29,7 +29,7 @@ To host this online, you'll need to set up a few things:
     e.g. _ProxyPass /wss2/ ws://www.abc.xyz:8080/_
   - From your front-end, you can connect like this:
     
-    _const wsChat = new WebSocket("ws://YOUR_SERVER_IP_OR_DOMAIN:PORT/wss2/comm");_
+    _const wsChat = new WebSocket("wss://YOUR_SERVER_IP_OR_DOMAIN:PORT/wss2/comm");_
 
   However, if you are wondering how to edit httpd.conf on WHM, here is how:
     - After enabling those services (mod_proxy.so and mod_proxy_wstunnel.so), log in to WHM, 
