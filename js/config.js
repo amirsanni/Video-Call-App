@@ -9,6 +9,7 @@ var app = getRootWebSitePath();
 const appRoot = setAppRoot(app,app);
 const spinnerClass = 'fa fa-spinner faa-spin animated';
 
+
 function getRootWebSitePath()
 {
     var _location = document.location.toString();

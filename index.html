@@ -54,13 +54,20 @@
             var linkInput = document.querySelector("#roomLink");
 
             createBtn.onclick = function(){
+                var check = appRoot.includes("Video-Call-App");
                 new Promise(function(resolve, reject){
                     var room = Math.random().toString(36).slice(2).substring(0, 15);
 
                     return room ? resolve(room) : reject(new Error("Could not create room"));
                 }).then(function(room){
+                    if(check){
                     var roomLink =appRoot+"comm.html?room="+room;
                     linkInput.innerHTML = '<a href="'+roomLink+'" target="_blank">Enter Room</a>';
+                    }
+                    else{
+                        var roomLink =appRoot+"Video-Call-App/comm.html?room="+room;
+                    linkInput.innerHTML = '<a href="'+roomLink+'" target="_blank">Enter Room</a>';
+                    }
                 }).catch(function(err){
                     linkInput.innerHTML = err;
                 });
