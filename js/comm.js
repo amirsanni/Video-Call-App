@@ -570,7 +570,7 @@ function startCall(isCaller){
     
         //When remote stream becomes available
         myPC.ontrack = function(e){
-            document.getElementById("peerVid").src = window.URL.createObjectURL(e.streams[0]);
+            document.getElementById("peerVid").src = window.HTMLMediaElement.srcObject(e.streams[0]);
         };
         
         
@@ -635,7 +635,7 @@ function setLocalMedia(streamConstraints, isCaller){
     navigator.mediaDevices.getUserMedia(
         streamConstraints
     ).then(function(myStream){
-        document.getElementById("myVid").src = window.URL.createObjectURL(myStream);
+        document.getElementById("myVid").src = window.HTMLMediaElement.srcObject(myStream);
         
         myPC.addStream(myStream);//add my stream to RTCPeerConnection
         
