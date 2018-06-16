@@ -22,11 +22,15 @@ function setAppRoot(devFolderName, prodFolderName){
     var devFolder = devFolderName ? devFolderName+"/" : "";
     var prodFolder = prodFolderName ? prodFolderName+"/" : "";
     
-    if((hostname.search("localhost") !== -1) || (hostname.search("192.168.") !== -1)  || (hostname.search("127.0.0.") !== -1)){
-        return window.location.origin+"/"+devFolder;
+    var appRoot = "";
+    
+    if(hostname === "localhost" || (hostname.search("192.168.") !== -1)  || (hostname.search("127.0.0.") !== -1)){
+        appRoot = window.location.origin+"/"+devFolder;
     }
     
     else{
-        return window.location.origin+"/"+prodFolder;
+        appRoot = window.location.origin+"/"+prodFolder;
     }
+    
+    return appRoot;
 }

@@ -473,7 +473,7 @@ function initCall(){
         //start calling tone
         document.getElementById('callerTone').play();
 
-        //notify callee that we're calling. Don't call startCall yet
+        //notify callee that we're calling. Don't call startCall() yet
         wsChat.send(JSON.stringify({
             action: 'initCall',
             msg: callType === 'Video' ? "Video call from remote" : "Audio call from remote",
@@ -571,7 +571,7 @@ function startCall(isCaller){
         //When remote stream becomes available
         myPC.ontrack = function(e){
             document.getElementById("peerVid").src = window.URL.createObjectURL(e.streams[0]);
-//             document.getElementById("peerVid").src = window.HTMLMediaElement.srcObject(e.streams[0]);
+            // document.getElementById("peerVid").src = window.HTMLMediaElement.srcObject(e.streams[0]);
         };
         
         
@@ -637,7 +637,7 @@ function setLocalMedia(streamConstraints, isCaller){
         streamConstraints
     ).then(function(myStream){
         document.getElementById("myVid").src = window.URL.createObjectURL(myStream);
-//         document.getElementById("myVid").src = window.HTMLMediaElement.srcObject(myStream);
+        // document.getElementById("peerVid").src = window.HTMLMediaElement.srcObject(e.streams[0]);
         
         myPC.addStream(myStream);//add my stream to RTCPeerConnection
         
