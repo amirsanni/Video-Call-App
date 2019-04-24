@@ -7,7 +7,7 @@
  * @date 23-Dec-2016
  */
 
-require '../vendor/autoload.php';
+require(realpath(dirname(__FILE__) . '/../') .'/vendor/autoload.php');
 
 use Amir\Comm;
 
