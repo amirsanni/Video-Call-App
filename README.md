@@ -18,9 +18,9 @@ To test this app on your local server:
 - Works best on Chrome, Firefox and the latest versions of Opera desktop browser.
 
 
-#Note
+## Note
 To host this online, you'll need to set up a few things:
-- Create Ratchet as a service so it can run persistently on your server. Check the file *ratchet_as_a_service.txt* for the guide on how to do this on CentOS7
+- Create Ratchet as a service so it can run persistently on your server. Check the file *create-ratchet-as-a-service-with-daemon.txt* for the guide on how to do this on CentOS7
 - If on SSL, Ratchet won't work unless you make some changes on your server.
   - Enable mod_proxy.so
   - Enable  mod_proxy_wstunnel.so
