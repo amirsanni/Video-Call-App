@@ -19,7 +19,7 @@ var awaitingResponse;
 var streamConstraints;
 var myMediaStream;
 let wsChat;
-<<<<<<< HEAD
+
 const room = getRoom();
 
 if(location.protocol === 'http:'){
@@ -28,17 +28,6 @@ if(location.protocol === 'http:'){
 
 else{
     wsChat = new WebSocket("wss://1410inc.xyz/wss/comm");
-=======
-
-const room = getRoom();
-
-if(location.protocol === 'http:'){
-    wsChat = new WebSocket("ws://1410inc.xyz:8080/comm");
-}
-
-else{
-    wsChat = new WebSocket("wss://1410inc.xyz:8080/wss2/comm");
->>>>>>> e96cbd3cbda49ec853b9ed4d0c795806f72b122c
 }
 
 window.addEventListener('load', function(){
