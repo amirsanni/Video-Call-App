@@ -18,9 +18,16 @@ var myPC;
 var awaitingResponse;
 var streamConstraints;
 var myMediaStream;
-
+let wsChat;
 const room = getRoom();
-const wsChat = new WebSocket("ws://localhost:8080/comm");
+
+if(location.protocol === 'http:'){
+    wsChat = new WebSocket("ws://1410inc.xyz/ws/comm");
+}
+
+else{
+    wsChat = new WebSocket("wss://1410inc.xyz/wss/comm");
+}
 
 window.addEventListener('load', function(){
     startCounter();//shows the time spent in room
