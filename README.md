@@ -47,4 +47,4 @@ To host this online, you'll need to set up a few things:
  
  
  # Demo
- You can test at http://1410inc.xyz/video-call-app. Please test on Firefox as Chrome will not grant access to media devices if not HTTPS.
+ You can test at https://1410inc.xyz/video-call-app.
