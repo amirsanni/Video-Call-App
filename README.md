@@ -12,27 +12,27 @@ To test this app on your local server:
 - Create and enter a room
 - Enter the room from two different browsers (using the same link) and test by sending text chats. This can be done on the same device.
 - The audio and video call is best tested on two different devices. This will require more configuration
- - Open `video-call-app/js/comm.js` and change this line `const wsChat = new WebSocket("ws://localhost:8080/comm");` to `const wsChat = new WebSocket("ws://YOUR_SERVER_IP:8080/comm");`
- - Open __`video-call-app/ws/bin/server.php`__ and add your server `ip address` to __`$allowed_origins`__ array, then replace the `localhost` in `$app = new Ratchet\App('localhost', 8080, '0.0.0.0');` with your `ip address`
+ - Open `video-call-app/js/comm.js` and change this line `const wsChat = new WebSocket("ws://localhost:PORT/comm");` to `const wsChat = new WebSocket("ws://YOUR_SERVER_IP:PORT/comm");`
+ - Open __`video-call-app/ws/bin/server.php`__ and add your server `ip address` to __`$allowed_origins`__ array, then replace the `localhost` and `PORT` in `$app = new Ratchet\App('localhost', PORT, '0.0.0.0');` with your `ip address` and `Port number`respectively
  - Blam! Good to go. Navigate to `YOUR_IP_ADDRESS/video-call-app` on your browser on two different devices to start chatting
 - Works best on Chrome, Firefox and the latest versions of Opera desktop browser.
 
 
 ## Note
 To host this online, you'll need to set up a few things:
-- Create Ratchet as a service so it can run persistently on your server. Check the file *create-ratchet-as-a-service-with-daemon.txt* for the guide on how to do this on CentOS7
+- Create Ratchet as a service so it can run persistently on your server. Check the file *create-ratchet-as-a-service-with-daemon.txt* for the guide on how to do this on CentOS7.
 - If on SSL, Ratchet won't work unless you make some changes on your server.
   - Enable mod_proxy.so
   - Enable  mod_proxy_wstunnel.so
-  - Open httpd.conf and add this: __ProxyPass /wss2/ ws://YOUR_SERVER_IP_OR_DOMAIN:PORT/__ 
-    
-    e.g. _ProxyPass /wss2/ ws://www.abc.xyz:8080/_
+  - Open your apache config file and add this: __ProxyPass /wss/ ws://YOUR_SERVER_IP_OR_DOMAIN:PORT/__
+   
+    e.g. _ProxyPass /wss/ ws://www.abc.xyz:8080/_
     
   - From your front-end, you can connect like this:
     
-    _const wsChat = new WebSocket("wss://YOUR_SERVER_IP_OR_DOMAIN/wss2/comm");_
+    _const wsChat = new WebSocket("wss://YOUR_SERVER_IP_OR_DOMAIN/wss/comm");_
 
-  However, if you are wondering how to edit httpd.conf on WHM, here is how:
+  However, if you are wondering how to edit apache config on WHM, here is how:
     - After enabling those services (mod_proxy.so and mod_proxy_wstunnel.so), log in to WHM, 
     
     go to __"service configuration" => "Apache configuration" => "include editor" => "pre main include"__, 
