@@ -7,7 +7,7 @@ A one-to-one text, audio and video chat application built with webRTC and Ratche
 
 # Getting Started
 To test this app on your local server:
-- The Ratchet server must be ON. This can be achived by navigating to *__video-call-app/ws/bin__* from your cli and run *__php server.php__*
+- The Ratchet server must be ON. This can be achieved by navigating to *__video-call-app/ws/bin__* from your cli and run *__php server.php__*
 - Run the app from your browser at: `http://localhost/video-call-app/`
 - Create and enter a room
 - Enter the room from two different browsers (using the same link) and test by sending text chats. This can be done on the same device.
@@ -26,7 +26,7 @@ To host this online, you'll need to set up a few things:
   - Enable  mod_proxy_wstunnel.so
   - Open your apache config file and add this: __ProxyPass /wss/ ws://YOUR_SERVER_IP_OR_DOMAIN:PORT/__
    
-    e.g. _ProxyPass /wss/ ws://www.abc.xyz:8080/_
+    e.g. _ProxyPass /wss/ ws://www.abc.xyz:PORT/_
     
   - From your front-end, you can connect like this:
     
