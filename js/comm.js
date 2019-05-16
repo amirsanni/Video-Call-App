@@ -31,7 +31,7 @@ else{
 }
 
 window.addEventListener('load', function(){
-    startCounter();//shows the time spent in room
+    //startCounter();//shows the time spent in room
     
     /*
     ********************************************************************************************************************************
