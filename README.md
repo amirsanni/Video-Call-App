@@ -3,17 +3,17 @@ A one-to-one text, audio and video chat application built with webRTC and Ratche
 
 # Requirements
 - PHP >= 5.4
-- Every other required files are included or referenced as the case may be
+- Every other required files are included or referenced as the case may be.
 
 # Getting Started
 To test this app on your local server:
-- The Ratchet server must be ON. This can be achieved by navigating to *__video-call-app/ws/bin__* from your cli and run *__php server.php__*
-- Run the app from your browser at: `http://localhost/video-call-app/`
-- Create and enter a room
-- Enter the room from two different browsers (using the same link) and test by sending text chats. This can be done on the same device.
-- The audio and video call is best tested on two different devices. This will require more configuration
+- The audio and video call is best tested on two different devices. This will require more configurations.
  - Open `video-call-app/js/comm.js` and change this line `const wsChat = new WebSocket("ws://localhost:PORT/comm");` to `const wsChat = new WebSocket("ws://YOUR_SERVER_IP:PORT/comm");`
- - Open __`video-call-app/ws/bin/server.php`__ and add your server `ip address` to __`$allowed_origins`__ array, then replace the `localhost` and `PORT` in `$app = new Ratchet\App('localhost', PORT, '0.0.0.0');` with your `ip address` and `Port number`respectively
+ - Open __`video-call-app/ws/bin/server.php`__ and add your server `ip address` to __`$allowed_origins`__ array, then replace the `localhost` and `PORT` in `$app = new Ratchet\App('localhost', PORT, '0.0.0.0');` with your `ip address` and `Port number`respectively.
+- The Ratchet server must be running. This can be achieved by navigating to *__video-call-app/ws/bin__* from your cli and run *__php server.php__*
+- Run the app from your browser at: `http://localhost/video-call-app/`
+- Create a room.
+- Enter the room from two different browsers (using the same link) and test by sending text chats. This can be done on the same device.
  - Blam! Good to go. Navigate to `YOUR_IP_ADDRESS/video-call-app` on your browser on two different devices to start chatting
 - Works best on Chrome, Firefox and the latest versions of Opera desktop browser.
 
@@ -43,6 +43,7 @@ To host this online, you'll need to set up a few things:
     - Once you put the Proxypass directive there, restart your server and there you go.
     
  This [answer on Stack Overflow](https://stackoverflow.com/a/28393526/4522890) should be helpful.
+ - Please note that Chrome and Firefox (>= 68) will not allow access to media devices except the application is running on SSL.
  
  
  
