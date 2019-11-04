@@ -52,7 +52,7 @@ window.addEventListener('load', function(){
         }
     }
 
-    xhr.open("GET", "/Server.php", true);
+    xhr.open("GET", appRoot+"Server.php", true);
     xhr.send();
     
     /*
