@@ -8,7 +8,9 @@
 
 
 
-var servers;
+var servers = {
+    iceServers: []
+};
 
 var myPC;
 var awaitingResponse;
@@ -42,9 +44,9 @@ window.addEventListener('load', function(){
 
     xhr.onreadystatechange = function(e){
         if(xhr.readyState == 4 && xhr.status == 200){
-            let res = JSON.parse(xhr.responseText);
+            let iceServers = JSON.parse(xhr.responseText);
 
-            servers = res.iceServers ? res : servers;
+            servers.iceServers = [iceServers];
         }
     }
 
