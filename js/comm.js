@@ -44,7 +44,7 @@ window.addEventListener('load', function(){
         if(xhr.readyState == 4 && xhr.status == 200){
             let res = JSON.parse(xhr.responseText);
 
-            servers = res.iceServers ? res : servers;
+            servers = res.iceServers ? res.iceServers : {};
         }
     }
 
