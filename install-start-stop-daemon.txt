@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd /usr/local/src
-wget http://developer.axis.com/download/distribution/apps-sys-utils-start-stop-daemon-IR1_9_18-2.tar.gz
-tar zxvf apps-sys-utils-start-stop-daemon-IR1_9_18-2.tar.gz
-cd apps/sys-utils/start-stop-daemon-IR1_9_18-2
-gcc start-stop-daemon.c -o start-stop-daemon
-cp start-stop-daemon /usr/sbin/
+1. cd /usr/local/src
+2. wget http://developer.axis.com/download/distribution/apps-sys-utils-start-stop-daemon-IR1_9_18-2.tar.gz
+3. tar zxvf apps-sys-utils-start-stop-daemon-IR1_9_18-2.tar.gz
+4. cd apps/sys-utils/start-stop-daemon-IR1_9_18-2
+5. gcc start-stop-daemon.c -o start-stop-daemon
+6. cp start-stop-daemon /usr/sbin/
