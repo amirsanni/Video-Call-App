@@ -6,6 +6,7 @@ use Ratchet\RFC6455\Messaging\CloseFrameChecker;
 use Ratchet\RFC6455\Messaging\Frame;
 use Ratchet\RFC6455\Messaging\Message;
 use Ratchet\RFC6455\Messaging\MessageBuffer;
+use React\EventLoop\Factory;
 
 class MessageBufferTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,5 +36,37 @@ class MessageBufferTest extends \PHPUnit_Framework_TestCase
         $messageBuffer->onData($data);
 
         $this->assertEquals(1000, $messageCount);
+    }
+
+    public function testProcessingMessagesAsynchronouslyWhileBlockingInMessageHandler() {
+        $loop = Factory::create();
+
+        $frameA = new Frame('a', true, Frame::OP_TEXT);
+        $frameB = new Frame('b', true, Frame::OP_TEXT);
+
+        $bReceived = false;
+
+        $messageBuffer = new MessageBuffer(
+            new CloseFrameChecker(),
+            function (Message $message) use (&$messageCount, &$bReceived, $loop) {
+                $payload = $message->getPayload();
+                $bReceived = $payload === 'b';
+
+                if (!$bReceived) {
+                    $loop->run();
+                }
+            },
+            null,
+            false
+        );
+
+        $loop->addPeriodicTimer(0.1, function () use ($messageBuffer, $frameB, $loop) {
+            $loop->stop();
+            $messageBuffer->onData($frameB->getContents());
+        });
+
+        $messageBuffer->onData($frameA->getContents());
+
+        $this->assertTrue($bReceived);
     }
 }

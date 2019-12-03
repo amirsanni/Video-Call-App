@@ -55,20 +55,28 @@ class ServerNegotiator implements NegotiatorInterface {
             return new Response(400);
         }
 
+        $upgradeSuggestion = [
+            'Connection'             => 'Upgrade',
+            'Upgrade'                => 'websocket',
+            'Sec-WebSocket-Version'  => $this->getVersionNumber()
+        ];
+        if (count($this->_supportedSubProtocols) > 0) {
+            $upgradeSuggestion['Sec-WebSocket-Protocol'] = implode(', ', array_keys($this->_supportedSubProtocols));
+        }
         if (true !== $this->verifier->verifyUpgradeRequest($request->getHeader('Upgrade'))) {
-            return new Response(400, [], '1.1', null, 'Upgrade header MUST be provided');
+            return new Response(426, $upgradeSuggestion, null, '1.1', 'Upgrade header MUST be provided');
         }
 
         if (true !== $this->verifier->verifyConnection($request->getHeader('Connection'))) {
-            return new Response(400, [], '1.1', null, 'Connection header MUST be provided');
+            return new Response(400, [], null, '1.1', 'Connection Upgrade MUST be requested');
         }
 
         if (true !== $this->verifier->verifyKey($request->getHeader('Sec-WebSocket-Key'))) {
-            return new Response(400, [], '1.1', null, 'Invalid Sec-WebSocket-Key');
+            return new Response(400, [], null, '1.1', 'Invalid Sec-WebSocket-Key');
         }
 
         if (true !== $this->verifier->verifyVersion($request->getHeader('Sec-WebSocket-Version'))) {
-            return new Response(426, ['Sec-WebSocket-Version' => $this->getVersionNumber()]);
+            return new Response(426, $upgradeSuggestion);
         }
 
         $headers = [];
@@ -81,7 +89,7 @@ class ServerNegotiator implements NegotiatorInterface {
             }, null);
 
             if ($this->_strictSubProtocols && null === $match) {
-                return new Response(400, [], '1.1', null ,'No Sec-WebSocket-Protocols requested supported');
+                return new Response(426, $upgradeSuggestion, null, '1.1', 'No Sec-WebSocket-Protocols requested supported');
             }
 
             if (null !== $match) {
@@ -107,6 +115,9 @@ class ServerNegotiator implements NegotiatorInterface {
         return base64_encode(sha1($key . static::GUID, true));
     }
 
+    /**
+     * @param array $protocols
+     */
     function setSupportedSubProtocols(array $protocols) {
         $this->_supportedSubProtocols = array_flip($protocols);
     }

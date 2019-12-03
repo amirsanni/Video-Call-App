@@ -2,6 +2,7 @@
 namespace GuzzleHttp\Psr7;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * PSR-7 response implementation.
@@ -92,7 +93,11 @@ class Response implements ResponseInterface
         $version = '1.1',
         $reason = null
     ) {
-        $this->statusCode = (int) $status;
+        $this->assertStatusCodeIsInteger($status);
+        $status = (int) $status;
+        $this->assertStatusCodeRange($status);
+
+        $this->statusCode = $status;
 
         if ($body !== '' && $body !== null) {
             $this->stream = stream_for($body);
@@ -100,7 +105,7 @@ class Response implements ResponseInterface
 
         $this->setHeaders($headers);
         if ($reason == '' && isset(self::$phrases[$this->statusCode])) {
-            $this->reasonPhrase = self::$phrases[$status];
+            $this->reasonPhrase = self::$phrases[$this->statusCode];
         } else {
             $this->reasonPhrase = (string) $reason;
         }
@@ -120,12 +125,30 @@ class Response implements ResponseInterface
 
     public function withStatus($code, $reasonPhrase = '')
     {
+        $this->assertStatusCodeIsInteger($code);
+        $code = (int) $code;
+        $this->assertStatusCodeRange($code);
+
         $new = clone $this;
-        $new->statusCode = (int) $code;
+        $new->statusCode = $code;
         if ($reasonPhrase == '' && isset(self::$phrases[$new->statusCode])) {
             $reasonPhrase = self::$phrases[$new->statusCode];
         }
         $new->reasonPhrase = $reasonPhrase;
         return $new;
+    }
+
+    private function assertStatusCodeIsInteger($statusCode)
+    {
+        if (filter_var($statusCode, FILTER_VALIDATE_INT) === false) {
+            throw new \InvalidArgumentException('Status code must be an integer value.');
+        }
+    }
+
+    private function assertStatusCodeRange($statusCode)
+    {
+        if ($statusCode < 100 || $statusCode >= 600) {
+            throw new \InvalidArgumentException('Status code must be an integer value between 1xx and 5xx.');
+        }
     }
 }

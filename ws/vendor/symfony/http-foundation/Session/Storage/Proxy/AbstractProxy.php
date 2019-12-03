@@ -12,8 +12,6 @@
 namespace Symfony\Component\HttpFoundation\Session\Storage\Proxy;
 
 /**
- * AbstractProxy.
- *
  * @author Drak <drak@zikula.org>
  */
 abstract class AbstractProxy
@@ -33,7 +31,7 @@ abstract class AbstractProxy
     /**
      * Gets the session.save_handler name.
      *
-     * @return string
+     * @return string|null
      */
     public function getSaveHandlerName()
     {

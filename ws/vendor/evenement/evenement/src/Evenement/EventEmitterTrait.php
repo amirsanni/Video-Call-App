@@ -22,6 +22,8 @@ trait EventEmitterTrait
         }
 
         $this->listeners[$event][] = $listener;
+
+        return $this;
     }
 
     public function once($event, callable $listener)
@@ -29,7 +31,7 @@ trait EventEmitterTrait
         $onceListener = function () use (&$onceListener, $event, $listener) {
             $this->removeListener($event, $onceListener);
 
-            call_user_func_array($listener, func_get_args());
+            \call_user_func_array($listener, \func_get_args());
         };
 
         $this->on($event, $onceListener);
@@ -38,8 +40,12 @@ trait EventEmitterTrait
     public function removeListener($event, callable $listener)
     {
         if (isset($this->listeners[$event])) {
-            if (false !== $index = array_search($listener, $this->listeners[$event], true)) {
+            $index = \array_search($listener, $this->listeners[$event], true);
+            if (false !== $index) {
                 unset($this->listeners[$event][$index]);
+                if (\count($this->listeners[$event]) === 0) {
+                    unset($this->listeners[$event]);
+                }
             }
         }
     }
@@ -61,7 +67,7 @@ trait EventEmitterTrait
     public function emit($event, array $arguments = [])
     {
         foreach ($this->listeners($event) as $listener) {
-            call_user_func_array($listener, $arguments);
+            \call_user_func_array($listener, $arguments);
         }
     }
 }

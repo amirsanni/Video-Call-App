@@ -26,6 +26,7 @@
     },
     "require-dev": {
         "react/http": "^0.4.1",
-        "react/socket-client": "^0.4.3"
+        "react/socket-client": "^0.4.3",
+        "phpunit/phpunit": "4.8.*"
     }
 }

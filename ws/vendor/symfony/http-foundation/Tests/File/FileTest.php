@@ -11,10 +11,11 @@
 
 namespace Symfony\Component\HttpFoundation\Tests\File;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
-class FileTest extends \PHPUnit_Framework_TestCase
+class FileTest extends TestCase
 {
     protected $file;
 
@@ -63,7 +64,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructWhenFileNotExists()
     {
-        $this->setExpectedException('Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException');
+        $this->expectException('Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException');
 
         new File(__DIR__.'/Fixtures/not_here');
     }
@@ -109,14 +110,14 @@ class FileTest extends \PHPUnit_Framework_TestCase
 
     public function getFilenameFixtures()
     {
-        return array(
-            array('original.gif', 'original.gif'),
-            array('..\\..\\original.gif', 'original.gif'),
-            array('../../original.gif', 'original.gif'),
-            array('файлfile.gif', 'файлfile.gif'),
-            array('..\\..\\файлfile.gif', 'файлfile.gif'),
-            array('../../файлfile.gif', 'файлfile.gif'),
-        );
+        return [
+            ['original.gif', 'original.gif'],
+            ['..\\..\\original.gif', 'original.gif'],
+            ['../../original.gif', 'original.gif'],
+            ['файлfile.gif', 'файлfile.gif'],
+            ['..\\..\\файлfile.gif', 'файлfile.gif'],
+            ['../../файлfile.gif', 'файлfile.gif'],
+        ];
     }
 
     /**
@@ -171,7 +172,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('guess')
             ->with($this->equalTo($path))
-            ->will($this->returnValue($mimeType))
+            ->willReturn($mimeType)
         ;
 
         return $guesser;

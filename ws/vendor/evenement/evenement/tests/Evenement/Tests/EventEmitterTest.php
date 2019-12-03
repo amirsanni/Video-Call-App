@@ -12,8 +12,9 @@
 namespace Evenement\Tests;
 
 use Evenement\EventEmitter;
+use PHPUnit\Framework\TestCase;
 
-class EventEmitterTest extends \PHPUnit_Framework_TestCase
+class EventEmitterTest extends TestCase
 {
     private $emitter;
 
@@ -44,6 +45,7 @@ class EventEmitterTest extends \PHPUnit_Framework_TestCase
             $this->emitter->on('foo', 'not a callable');
             $this->fail();
         } catch (\Exception $e) {
+        } catch (\TypeError $e) {
         }
     }
 
@@ -231,5 +233,59 @@ class EventEmitterTest extends \PHPUnit_Framework_TestCase
         $this->emitter->emit('foo');
         $this->emitter->emit('bar');
         $this->assertSame(0, $listenersCalled);
+    }
+
+    public function testCallablesClosure()
+    {
+        $calledWith = null;
+
+        $this->emitter->on('foo', function ($data) use (&$calledWith) {
+            $calledWith = $data;
+        });
+
+        $this->emitter->emit('foo', ['bar']);
+
+        self::assertSame('bar', $calledWith);
+    }
+
+    public function testCallablesClass()
+    {
+        $listener = new Listener();
+        $this->emitter->on('foo', [$listener, 'onFoo']);
+
+        $this->emitter->emit('foo', ['bar']);
+
+        self::assertSame(['bar'], $listener->getData());
+    }
+
+
+    public function testCallablesClassInvoke()
+    {
+        $listener = new Listener();
+        $this->emitter->on('foo', $listener);
+
+        $this->emitter->emit('foo', ['bar']);
+
+        self::assertSame(['bar'], $listener->getMagicData());
+    }
+
+    public function testCallablesStaticClass()
+    {
+        $this->emitter->on('foo', '\Evenement\Tests\Listener::onBar');
+
+        $this->emitter->emit('foo', ['bar']);
+
+        self::assertSame(['bar'], Listener::getStaticData());
+    }
+
+    public function testCallablesFunction()
+    {
+        $this->emitter->on('foo', '\Evenement\Tests\setGlobalTestData');
+
+        $this->emitter->emit('foo', ['bar']);
+
+        self::assertSame('bar', $GLOBALS['evenement-evenement-test-data']);
+
+        unset($GLOBALS['evenement-evenement-test-data']);
     }
 }

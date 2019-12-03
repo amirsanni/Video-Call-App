@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpFoundation\Tests\Session\Storage;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 /**
@@ -18,36 +19,33 @@ use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
  *
  * @group time-sensitive
  */
-class MetadataBagTest extends \PHPUnit_Framework_TestCase
+class MetadataBagTest extends TestCase
 {
     /**
      * @var MetadataBag
      */
     protected $bag;
 
-    /**
-     * @var array
-     */
-    protected $array = array();
+    protected $array = [];
 
     protected function setUp()
     {
         parent::setUp();
         $this->bag = new MetadataBag();
-        $this->array = array(MetadataBag::CREATED => 1234567, MetadataBag::UPDATED => 12345678, MetadataBag::LIFETIME => 0);
+        $this->array = [MetadataBag::CREATED => 1234567, MetadataBag::UPDATED => 12345678, MetadataBag::LIFETIME => 0];
         $this->bag->initialize($this->array);
     }
 
     protected function tearDown()
     {
-        $this->array = array();
+        $this->array = [];
         $this->bag = null;
         parent::tearDown();
     }
 
     public function testInitialize()
     {
-        $sessionMetadata = array();
+        $sessionMetadata = [];
 
         $bag1 = new MetadataBag();
         $bag1->initialize($sessionMetadata);
@@ -84,7 +82,7 @@ class MetadataBagTest extends \PHPUnit_Framework_TestCase
     public function testGetLifetime()
     {
         $bag = new MetadataBag();
-        $array = array(MetadataBag::CREATED => 1234567, MetadataBag::UPDATED => 12345678, MetadataBag::LIFETIME => 1000);
+        $array = [MetadataBag::CREATED => 1234567, MetadataBag::UPDATED => 12345678, MetadataBag::LIFETIME => 1000];
         $bag->initialize($array);
         $this->assertEquals(1000, $bag->getLifetime());
     }
@@ -102,6 +100,9 @@ class MetadataBagTest extends \PHPUnit_Framework_TestCase
     public function testClear()
     {
         $this->bag->clear();
+
+        // the clear method has no side effects, we just want to ensure it doesn't trigger any exceptions
+        $this->addToAssertionCount(1);
     }
 
     public function testSkipLastUsedUpdate()
@@ -110,11 +111,11 @@ class MetadataBagTest extends \PHPUnit_Framework_TestCase
         $timeStamp = time();
 
         $created = $timeStamp - 15;
-        $sessionMetadata = array(
+        $sessionMetadata = [
             MetadataBag::CREATED => $created,
             MetadataBag::UPDATED => $created,
             MetadataBag::LIFETIME => 1000,
-        );
+        ];
         $bag->initialize($sessionMetadata);
 
         $this->assertEquals($created, $sessionMetadata[MetadataBag::UPDATED]);
@@ -126,11 +127,11 @@ class MetadataBagTest extends \PHPUnit_Framework_TestCase
         $timeStamp = time();
 
         $created = $timeStamp - 45;
-        $sessionMetadata = array(
+        $sessionMetadata = [
             MetadataBag::CREATED => $created,
             MetadataBag::UPDATED => $created,
             MetadataBag::LIFETIME => 1000,
-        );
+        ];
         $bag->initialize($sessionMetadata);
 
         $this->assertEquals($timeStamp, $sessionMetadata[MetadataBag::UPDATED]);
