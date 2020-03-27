@@ -899,9 +899,6 @@ function fixChatScrollBarToBottom(){
 
 function enableCallBtns(){
     //enable dial btns and disable endcall btn
-//    $(".initCall").attr('disabled', false);
-//    $("#terminateCall").attr('disabled', true);
-    
     var initCallElems = document.getElementsByClassName('initCall');
     
     for(let i = 0; i < initCallElems.length; i++){
@@ -921,9 +918,6 @@ function enableCallBtns(){
 
 function disableCallBtns(){
     //disable dial btns and enable endall btn
-//    $(".initCall").attr('disabled', true);
-//    $("#terminateCall").attr('disabled', false);
-
     var initCallElems = document.getElementsByClassName('initCall');
     
     for(let i = 0; i < initCallElems.length; i++){
@@ -1057,10 +1051,6 @@ function startCounter(){
 
 function stopMediaStream(){    
     if(myMediaStream){
-//        myMediaStream.getTracks()[0].stop();
-//        
-//        myMediaStream.getTracks()[1] ? myMediaStream.getTracks()[1].stop() : "";
-        
         var totalTracks = myMediaStream.getTracks().length;
         
         for(let i = 0; i < totalTracks; i++){
