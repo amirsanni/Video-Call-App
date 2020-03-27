@@ -1,0 +1,11 @@
+{
+    "require":{
+        "cboden/ratchet" : "0.4.x-dev"
+    },
+    
+    "autoload": {
+        "psr-4": {
+            "Amir\\": "ws/bin/amir/"
+        }
+    }
+}

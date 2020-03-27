@@ -7,15 +7,16 @@
  * @date 23-Dec-2016
  */
 
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 
 use Amir\Comm;
+use Ratchet\App;
 
 //set an array of origins allowed to connect to this server
 $allowed_origins = ['localhost', '127.0.0.1', '1410inc.xyz', 'www.1410inc.xyz'];
 
 // Run the server application through the WebSocket protocol on port 8080
-$app = new Ratchet\App('1410inc.xyz', 8080, '0.0.0.0');//App(hostname, port, 'whoCanConnectIP', '')
+$app = new App('1410inc.xyz', 8080, '0.0.0.0');//App(hostname, port, 'whoCanConnectIP', '')
 
 //create socket routes
 //route(uri, classInstance, arrOfAllowedOrigins)
