@@ -21,11 +21,11 @@ let wsChat;
 const room = getRoom();
 
 if(location.protocol === 'http:'){
-    wsChat = new WebSocket("ws://1410inc.xyz/ws/comm");
+    wsChat = new WebSocket("ws://localhost:8080/comm");
 }
 
 else{
-    wsChat = new WebSocket("wss://1410inc.xyz/wss/comm");
+    wsChat = new WebSocket("wss://localhost:8080/comm");
 }
 
 window.addEventListener('load', function(){
