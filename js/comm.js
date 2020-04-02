@@ -665,7 +665,11 @@ function setLocalMedia(streamConstraints, isCaller){
     ).then(function(myStream){
         document.getElementById("myVid").srcObject = myStream;
         
-        myPC.addStream(myStream);//add my stream to RTCPeerConnection
+        // myPC.addStream(myStream);//add my stream to RTCPeerConnection
+        //add my stream to RTCPeerConnection
+        myStream.getTracks().forEach((track)=>{
+            myPC.addTrack(track, myStream);
+        });
         
         //set var myMediaStream as the stream gotten. Will be used to remove stream later on
         myMediaStream = myStream;
