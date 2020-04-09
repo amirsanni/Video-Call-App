@@ -3,6 +3,7 @@ A one-to-one text, audio and video chat application built with webRTC and Ratche
 
 # Requirements
 - PHP >= 5.4
+- Composer
 - Every other required files are included or referenced as the case may be.
 
 # Getting Started
