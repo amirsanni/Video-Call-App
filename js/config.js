@@ -6,4 +6,4 @@
 'use strict';
 
 
-const appRoot = 'http://localhost:8888';
+const appRoot = 'http://localhost:8888/';
