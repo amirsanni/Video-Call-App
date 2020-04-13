@@ -24,6 +24,8 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js'></script>
 
         <!-- Custom styles -->
         <link rel="stylesheet" href="css/comm.css">
@@ -48,9 +50,10 @@
             <div class="row margin-top-20">                
                 <!-- Call Buttons -->
                 <div class="col-sm-12 text-center" id="callBtns">
-                    <button class="btn btn-success btn-sm initCall" id="initAudio"><i class="fa fa-phone"></i></button>
-                    <button class="btn btn-info btn-sm initCall" id="initVideo"><i class="fa fa-video-camera"></i></button>
-                    <button class="btn btn-danger btn-sm" id="terminateCall" disabled><i class="fa fa-phone-square"></i></button>
+                    <button class="btn btn-success btn-sm initCall" id="initAudio" title='Start audio call'><i class="fa fa-phone"></i></button>
+                    <button class="btn btn-info btn-sm initCall" id="initVideo" title="Start video call"><i class="fa fa-video-camera"></i></button>
+                    <button class="btn btn-danger btn-sm" id="terminateCall" disabled title="End call"><i class="fa fa-phone-square"></i></button>
+                    <button class="btn btn-sm" id='record' disabled title="Record"><i class="fa fa-dot-circle-o"></i></button>
                 </div>
                 <!-- Call Buttons -->
                 

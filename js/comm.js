@@ -17,6 +17,8 @@ var awaitingResponse;
 var streamConstraints;
 var myMediaStream;
 let wsChat;
+var recordedChunks = [];
+var mediaRecorder = null;
 
 const room = getRoom();
 
@@ -475,6 +477,60 @@ window.addEventListener('load', function(){
         //enable call buttons
         enableCallBtns();
     });
+    
+    /*
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    */
+
+    
+    document.getElementById('record').addEventListener('click', (e)=>{
+        if(myMediaStream && myMediaStream.getTracks().length){
+            if(mediaRecorder && mediaRecorder.state == 'recording'){
+                //stop recording
+                mediaRecorder.stop();
+
+                e.setAttribute('title', 'Record');
+                e.target.classList.remove('btn-danger');
+            }
+
+            else{
+                //start recording
+                mediaRecorder = new MediaRecorder(myMediaStream, {
+                    mimeType: 'video/webm;codecs=vp9'
+                });
+    
+                mediaRecorder.start(1000);
+
+                //change the button to reflect that recording has started
+                e.setAttribute('title', 'Stop recording');
+                e.target.classList.add('btn-danger');
+    
+                mediaRecorder.ondataavailable = function(e){
+                    recordedChunks.push(e.data);
+                }
+    
+                mediaRecorder.onstop = function(){
+                    saveRecordedStream(recordedChunks);
+    
+                    setTimeout(()=>{
+                        recordedChunks = [];
+                    }, 3000);
+                }
+    
+                mediaRecorder.onerror = function(e){
+                    console.error(e);
+                }
+            }
+        }
+
+        else{
+            showSnackBar('Nothing to record', 5000);
+        }
+    });
 });
 
 /*
@@ -886,6 +942,11 @@ function endCall(msg, setTimeOut){
     clearTimeout(awaitingResponse);
 
     document.getElementById('callerTone').pause();
+
+    //disable the record button
+    document.getElementById('record').removeAttribute('disabled');
+
+    stopMediaStream();
 }
 
 /*
@@ -918,6 +979,7 @@ function enableCallBtns(){
     }
     
     document.getElementById('terminateCall').setAttribute('disabled', true);
+    document.getElementById('record').setAttribute('disabled', true);
 }
 
 /*
@@ -937,6 +999,7 @@ function disableCallBtns(){
     }
     
     document.getElementById('terminateCall').removeAttribute('disabled');
+    document.getElementById('record').removeAttribute('disabled');
 }
 
 /*
@@ -1062,12 +1125,8 @@ function startCounter(){
 */
 
 function stopMediaStream(){    
-    if(myMediaStream){
-        var totalTracks = myMediaStream.getTracks().length;
-        
-        for(let i = 0; i < totalTracks; i++){
-            myMediaStream.getTracks()[i].stop();
-        }
+    if(myMediaStream && myMediaStream.getTracks().length){
+        myMediaStream.getTracks().forEach(track => track.stop())
     }
 }
 
@@ -1132,4 +1191,14 @@ function getRoom(){
     else{
         return "";
     }
+}
+
+
+
+function saveRecordedStream(chunk){
+    let blob = new Blob(chunk, {type:'video/webm'});
+
+    let file = new File([blob], `__${moment().unix()}-record.webm`);
+
+    saveAs(file);
 }
