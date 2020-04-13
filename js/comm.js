@@ -22,14 +22,9 @@ var mediaRecorder = null;
 
 const room = getRoom();
 
+
 window.addEventListener('load', function(){
-    if(location.protocol === 'http:'){
-        wsChat = new WebSocket("ws://localhost:8080/comm");
-    }
-    
-    else{
-        wsChat = new WebSocket("wss://localhost:8080/comm");
-    }
+    wsChat = new WebSocket(`${wsUrl}/comm`);
 
     /*
     ********************************************************************************************************************************
