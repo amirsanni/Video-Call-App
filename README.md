@@ -12,7 +12,7 @@ A one-to-one text, audio and video chat application built with webRTC and Ratche
 - Text chat
 - Two participants only
 
-If you require more than two participants, check out https://github.com/amirsanni/video-call-app-nodejs.
+If you require more than two participants, check out [this](https://github.com/amirsanni/video-call-app-nodejs) and [this](https://github.com/amirsanni/conference-call-ratchet).
 
 # Getting Started
 To test this app on your local server:
