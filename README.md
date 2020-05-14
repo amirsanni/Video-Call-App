@@ -23,6 +23,7 @@ To test this app on your local server:
 - Start Ratchet server by executing `php ws/bin/server.php` from your CLI.
 - Blam! Good to go. Open the app on two different devices to start chatting.
 - Works best on Chrome, Firefox and the latest versions of Opera desktop browser.
+- Xirsys' free STUN/TURN servers were used. If interested, you can get a free account, rename `Server.example.php` to `Server.php` and update it with your free credentials.
 
 
 ## Note
