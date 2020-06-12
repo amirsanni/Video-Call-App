@@ -323,12 +323,14 @@ window.addEventListener('load', function(){
     //WHEN ENTER IS PRESSED TO SEND MESSAGE
     document.getElementById("chatInput").addEventListener('keypress', function(e){
         var msg = this.value.trim();
-        
-        if((e.which === 13) && msg){
-            //trigger the click event on the send btn
-            document.getElementById("chatSendBtn").click();
-            
-            return false;
+
+        if ( e.which === 13 && e.ctrlKey && msg ) {
+            this.value = `${ this.value }\n`;
+        }
+
+        else if ( e.which === 13 && !e.shiftKey && msg ) {
+            e.preventDefault();
+            document.getElementById( "chatSendBtn" ).click();
         }
     });
     
@@ -809,12 +811,12 @@ function addRemoteChat(msg, date){
         
         return resolve(newNode);
     }).then(function(newlyCreatedNode){
-        newlyCreatedNode.innerHTML = '<div class="col-sm-10 col-xs-10">\
-                <div class="messages msg_receive">\
-                    <p>'+msg+'</p>\
-                    <time>Remote • '+date+'</time>\
-                </div>\
-            </div>';
+        newlyCreatedNode.innerHTML = `<div class="col-sm-10 col-xs-10">
+                <div class="messages msg_receive">
+                    <p>${msg}</p>
+                    <time>Remote • ${date}</time>
+                </div>
+            </div>`;
         
         document.getElementById('chats').appendChild(newlyCreatedNode);
 
@@ -854,12 +856,12 @@ function addLocalChat(msg, date, sendToPartner){
         
         return resolve(newNode);
     }).then(function(newlyCreatedNode){
-        newlyCreatedNode.innerHTML = '<div class="col-sm-10 col-xs-10">\
-                <div class="messages msg_sent">\
-                    <p>'+msg+'</p>\
-                    <time>You • '+date+' <i class="fa fa-clock-o sentStatus" id="'+msgId+'"></i></time>\
-                </div>\
-            </div>';
+        newlyCreatedNode.innerHTML = `<div class="col-sm-10 col-xs-10">
+                <div class="messages msg_sent">
+                    <p>${msg}</p>
+                    <time>You • ${date} <i class="fa fa-clock-o sentStatus" id="'+msgId+'"></i></time>
+                </div>
+            </div>`;
         
         document.getElementById('chats').appendChild(newlyCreatedNode);
         
@@ -867,7 +869,7 @@ function addLocalChat(msg, date, sendToPartner){
             //use this if you just want to send via socket without saving in db
             sendChatToSocket(msg, date, msgId);
         }
-        
+
         fixChatScrollBarToBottom();
     });
 }
