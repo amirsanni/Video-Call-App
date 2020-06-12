@@ -867,10 +867,9 @@ function addLocalChat(msg, date, sendToPartner){
             //use this if you just want to send via socket without saving in db
             sendChatToSocket(msg, date, msgId);
         }
+        
+        fixChatScrollBarToBottom();
     });
-    
-    
-    fixChatScrollBarToBottom();
 }
 
 /*
