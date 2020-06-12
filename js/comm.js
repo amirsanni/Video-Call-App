@@ -430,7 +430,7 @@ window.addEventListener('load', function(){
     */
     
     //Maximise the chat pane when user focuses on the input and pane is collapsed
-    $('.chat-pane').on('focus', '.chat_input', function () {
+    $('.chat-pane').on('focus', '.chat-input', function () {
         var $this = $(this);
         
         if ($('#minim_chat_window').hasClass('panel-collapsed')) {
@@ -813,7 +813,7 @@ function addRemoteChat(msg, date){
     }).then(function(newlyCreatedNode){
         newlyCreatedNode.innerHTML = `<div class="col-sm-10 col-xs-10">
                 <div class="messages msg_receive">
-                    <p>${msg}</p>
+                    <p>${nl2br(msg)}</p>
                     <time>Remote • ${date}</time>
                 </div>
             </div>`;
@@ -858,8 +858,8 @@ function addLocalChat(msg, date, sendToPartner){
     }).then(function(newlyCreatedNode){
         newlyCreatedNode.innerHTML = `<div class="col-sm-10 col-xs-10">
                 <div class="messages msg_sent">
-                    <p>${msg}</p>
-                    <time>You • ${date} <i class="fa fa-clock-o sentStatus" id="'+msgId+'"></i></time>
+                    <p>${nl2br(msg)}</p>
+                    <time>You • ${date} <i class="fa fa-clock-o sentStatus" id="${msgId}"></i></time>
                 </div>
             </div>`;
         
@@ -1197,4 +1197,12 @@ function saveRecordedStream(chunk){
     let file = new File([blob], `__${moment().unix()}-record.webm`);
 
     saveAs(file);
+}
+
+function nl2br( str, is_xhtml ) {
+    if ( typeof str === 'undefined' || str === null ) {
+        return '';
+    }
+    var breakTag = ( is_xhtml || typeof is_xhtml === 'undefined' ) ? '<br />' : '<br>';
+    return ( str + '' ).replace( /([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2' );
 }

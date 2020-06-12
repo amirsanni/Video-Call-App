@@ -90,6 +90,11 @@
 .col-md-4, .col-md-10{
     padding:0;
 }
+
+.chat-input {
+    resize: none;
+}
+
 .chat-pane-panel{
     margin-bottom: 0px;
 }
@@ -206,10 +211,6 @@
     background-color: #555;
 }
 /* _CHAT PANE */
-
-.chat-area {
-    resize: none;
-}
 
 /*
 ********************************************************************************************************************************
